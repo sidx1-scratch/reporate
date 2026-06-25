@@ -1,0 +1,14 @@
+{
+  "name": "repocart",
+  "version": "1.0.0",
+  "description": "Rates GitHub repos like Amazon product reviews, using AI-generated fake \"customers\" who clearly never wanted a code review.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "GPL-3.0",
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,432 @@
+/* ===== Design tokens =====
+   Palette: warm catalog-paper background, ink-navy header (Amazon's old
+   product-page DNA), coral-orange CTA, verified-green for trust signals,
+   star-gold for ratings.
+   Type: a serif display for editorial headlines (the "catalog" voice) paired
+   with monospace for anything that's actually about code — including half
+   of the wordmark itself, since this whole app is commerce grafted onto git.
+*/
+:root {
+  --ink: #0b1726;
+  --ink-soft: #57667a;
+  --paper: #faf8f3;
+  --paper-raised: #ffffff;
+  --line: #e3ddd0;
+  --cart-orange: #ff7a3d;
+  --cart-orange-dark: #e0631f;
+  --verified-green: #1a7f5a;
+  --star-gold: #d98a1f;
+  --star-empty: #ddd6c4;
+  --radius: 6px;
+
+  --font-display: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+  --font-mono: 'SF Mono', 'Menlo', 'Consolas', 'Liberation Mono', monospace;
+  --font-body: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+a { color: inherit; }
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid var(--cart-orange);
+  outline-offset: 2px;
+}
+
+/* ===== Top bar ===== */
+.topbar {
+  background: var(--ink);
+  color: #fff;
+  padding: 14px 20px;
+}
+
+.topbar-inner {
+  max-width: 920px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.wordmark {
+  font-size: 22px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+
+.wordmark-repo {
+  font-family: var(--font-display);
+  font-style: italic;
+}
+
+.wordmark-cart {
+  font-family: var(--font-mono);
+  color: var(--cart-orange);
+}
+
+.search-form {
+  display: flex;
+  flex: 1;
+  min-width: 240px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--ink);
+}
+
+#repo-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: none;
+  font-size: 15px;
+  font-family: var(--font-mono);
+  background: #fff;
+  color: var(--ink);
+  min-width: 0;
+}
+
+#search-btn {
+  background: var(--cart-orange);
+  color: #1a0d05;
+  border: none;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 0 18px;
+  transition: background 0.15s ease;
+}
+
+#search-btn:hover { background: var(--cart-orange-dark); }
+
+/* ===== Page shell ===== */
+.page {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 48px 20px 80px;
+  min-height: 50vh;
+}
+
+/* ===== Empty state ===== */
+.empty-state {
+  text-align: center;
+  max-width: 600px;
+  margin: 40px auto;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+  color: var(--cart-orange-dark);
+  margin: 0 0 12px;
+}
+
+.empty-state h1 {
+  font-family: var(--font-display);
+  font-size: 34px;
+  line-height: 1.25;
+  margin: 0 0 16px;
+}
+
+.empty-state h1 em {
+  font-style: italic;
+  color: var(--cart-orange-dark);
+}
+
+.sub {
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+#try-example {
+  margin-top: 18px;
+  background: transparent;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 600;
+}
+#try-example:hover { background: var(--ink); color: #fff; }
+
+/* ===== Loading ===== */
+.loading-state {
+  text-align: center;
+  padding: 60px 0;
+  color: var(--ink-soft);
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  margin: 0 auto 14px;
+  border: 3px solid var(--line);
+  border-top-color: var(--cart-orange);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation: none; }
+}
+
+/* ===== Error ===== */
+.error-state {
+  border: 1px solid #d9534f;
+  background: #fff5f4;
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  max-width: 600px;
+  margin: 20px auto;
+}
+.error-title { font-weight: 700; margin: 0 0 6px; }
+.error-message { margin: 0; color: var(--ink-soft); font-family: var(--font-mono); font-size: 13px; }
+
+/* ===== Product card ===== */
+.product-card {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 28px;
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 36px;
+}
+
+@media (max-width: 640px) {
+  .product-card { grid-template-columns: 1fr; }
+}
+
+.product-title {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  margin: 0 0 8px;
+  word-break: break-word;
+}
+
+.product-desc {
+  color: var(--ink-soft);
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+.rating-summary {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.rating-summary-score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.avg-rating {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.rating-count {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--star-gold);
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+.stars-lg { font-size: 18px; }
+
+.histogram {
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.histogram-row {
+  display: grid;
+  grid-template-columns: 16px 1fr 30px;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.histogram-track {
+  background: var(--star-empty);
+  border-radius: 3px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.histogram-fill {
+  background: var(--star-gold);
+  height: 100%;
+}
+
+/* ===== Stats sidebar ===== */
+.product-stats dl {
+  margin: 0 0 18px;
+  font-size: 13px;
+}
+.product-stats dl > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+}
+.product-stats dt { color: var(--ink-soft); }
+.product-stats dd { margin: 0; font-weight: 600; font-family: var(--font-mono); }
+
+.lang-bar-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  margin: 0 0 8px;
+}
+
+.lang-bar {
+  display: flex;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--star-empty);
+}
+
+.lang-bar-seg {
+  height: 100%;
+}
+
+.lang-legend {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lang-legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lang-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ===== Reviews ===== */
+.reviews-header h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+  margin: 0 0 20px;
+}
+
+.review-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.review-card {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 480px) {
+  .review-card { grid-template-columns: 44px 1fr; }
+}
+
+.review-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.review-meta {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+
+.review-name { color: var(--ink); font-weight: 600; }
+
+.verified-badge {
+  color: var(--verified-green);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-left: 8px;
+}
+
+.review-title {
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+
+.review-body {
+  margin: 0 0 8px;
+  line-height: 1.55;
+}
+
+.review-footer {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+/* ===== Footer ===== */
+.page-footer {
+  text-align: center;
+  padding: 24px 20px 40px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}

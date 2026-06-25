@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RepoCart — Customer Reviews for Code You Didn't Buy</title>
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="wordmark" href="/">
+      <span class="wordmark-repo">Repo</span><span class="wordmark-cart">Cart</span>
+    </a>
+    <form id="search-form" class="search-form">
+      <input
+        id="repo-input"
+        type="text"
+        placeholder="Paste a GitHub repo URL or owner/repo&hellip;"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button type="submit" id="search-btn">Get Reviewed</button>
+    </form>
+  </div>
+</header>
+
+<main class="page">
+
+  <section id="empty-state" class="empty-state">
+    <p class="eyebrow">Step right up</p>
+    <h1>See what customers <em>really</em> think of a codebase.</h1>
+    <p class="sub">
+      Paste any public GitHub repo above. We'll read the README, the languages,
+      the latest commit, and the stars &mdash; then ask an AI to leave it
+      Amazon-style reviews, as if it were a blender someone unboxed.
+    </p>
+    <button type="button" id="try-example">Try an example repo</button>
+  </section>
+
+  <section id="loading-state" class="loading-state" hidden>
+    <div class="spinner" aria-hidden="true"></div>
+    <p id="loading-text">Reading the README&hellip;</p>
+  </section>
+
+  <section id="error-state" class="error-state" hidden>
+    <p class="error-title">Something went sideways.</p>
+    <p id="error-message" class="error-message"></p>
+  </section>
+
+  <section id="results" class="results" hidden>
+
+    <div class="product-card">
+      <div class="product-main">
+        <h2 id="repo-name" class="product-title"></h2>
+        <p id="repo-description" class="product-desc"></p>
+
+        <div class="rating-summary">
+          <div class="rating-summary-score">
+            <span id="avg-rating" class="avg-rating">&ndash;</span>
+            <div id="avg-stars" class="stars stars-lg" aria-hidden="true"></div>
+            <span id="rating-count" class="rating-count"></span>
+          </div>
+          <div id="histogram" class="histogram"></div>
+        </div>
+      </div>
+
+      <aside class="product-stats">
+        <dl>
+          <div><dt>Stars</dt><dd id="stat-stars">&ndash;</dd></div>
+          <div><dt>Forks</dt><dd id="stat-forks">&ndash;</dd></div>
+          <div><dt>Open issues</dt><dd id="stat-issues">&ndash;</dd></div>
+          <div><dt>License</dt><dd id="stat-license">&ndash;</dd></div>
+        </dl>
+        <div class="lang-bar-wrap">
+          <p class="lang-bar-label">What's inside</p>
+          <div id="lang-bar" class="lang-bar" role="img"></div>
+          <ul id="lang-legend" class="lang-legend"></ul>
+        </div>
+      </aside>
+    </div>
+
+    <div class="reviews-header">
+      <h3>Customer Reviews</h3>
+    </div>
+
+    <ul id="review-list" class="review-list"></ul>
+
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <p>
+    RepoCart generates satirical reviews with AI. None of these people exist,
+    and none of them actually filed an issue. Probably.
+  </p>
+</footer>
+
+<script src="/app.js"></script>
+</body>
+</html>
