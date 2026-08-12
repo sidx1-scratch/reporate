@@ -1,4 +1,4 @@
-# RepoCart
+# reporate
 
 Rates GitHub repos like Amazon product reviews. Paste a repo, and an AI reads
 the README, the language mix, the stats, and the latest commit, then writes
@@ -11,8 +11,8 @@ the GitHub API (public, unauthenticated) and OpenRouter (for the reviews).
 ## Run it locally
 
 ```bash
-git clone https://github.com/<you>/repocart.git
-cd repocart
+git clone https://github.com/sidx1-scratch/reporate
+cd reporate
 cp .env.example .env   # then paste in your OpenRouter key
 npm start
 ```
