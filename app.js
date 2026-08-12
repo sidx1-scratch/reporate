@@ -16,6 +16,7 @@ const LOADING_MESSAGES = [
   "Counting the stars (the GitHub kind)…",
   "Interviewing imaginary customers…",
   "Checking if anyone read the install instructions…",
+  "Why do i even bother reviewing?",
 ];
 
 const LANG_COLORS = [
