@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>RepoCart — Customer Reviews for Code You Didn't Buy</title>
+<title>RepoRate — Customer Reviews for Code You Didn't Buy</title>
 <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
@@ -11,7 +11,7 @@
 <header class="topbar">
   <div class="topbar-inner">
     <a class="wordmark" href="/">
-      <span class="wordmark-repo">Repo</span><span class="wordmark-cart">Cart</span>
+      <span class="wordmark-repo">Repo</span><span class="wordmark-rate">Rate</span>
     </a>
     <form id="search-form" class="search-form">
       <input
@@ -81,8 +81,9 @@
       </aside>
     </div>
 
-    <div class="reviews-header">
+    <div class="reviews-header" style="display: flex; justify-content: space-between; align-items: baseline;">
       <h3>Customer Reviews</h3>
+      <button id="reply-to-all-btn" class="reply-to-all-btn">Reply to All</button>
     </div>
 
     <ul id="review-list" class="review-list"></ul>
@@ -93,7 +94,7 @@
 
 <footer class="page-footer">
   <p>
-    RepoCart generates satirical reviews with AI. None of these people exist,
+    RepoRate generates satirical reviews with AI. None of these people exist,
     and none of them actually filed an issue. Probably.
   </p>
 </footer>

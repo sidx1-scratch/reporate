@@ -75,7 +75,7 @@ button {
   font-style: italic;
 }
 
-.wordmark-cart {
+.wordmark-rate {
   font-family: var(--font-mono);
   color: var(--cart-orange);
 }
@@ -429,4 +429,119 @@ button {
   padding: 24px 20px 40px;
   font-size: 12px;
   color: var(--ink-soft);
+}
+
+/* ===== Replies (The Amazon+GitHub+Linux+iOS+macOS monster) ===== */
+.reply-to-all-btn {
+  background: var(--cart-orange); /* Amazon */
+  color: #fff;
+  border: 1px solid rgba(27,31,36,0.15); /* Github style border */
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 1px 0 rgba(27,31,36,0.04);
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.reply-to-all-btn:hover { background: var(--cart-orange-dark); }
+
+.reply-btn {
+  background: transparent;
+  color: var(--ink-soft);
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 8px;
+  text-decoration: underline;
+}
+.reply-btn:hover { color: var(--ink); }
+
+.os-frankenstein-box {
+  margin-top: 12px;
+  border-radius: 12px; /* iOS rounded */
+  background: rgba(250, 248, 243, 0.6); 
+  backdrop-filter: blur(15px); /* iOS glassmorphism */
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: popIn 0.3s ease-out;
+}
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(-5px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.mac-titlebar {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(230, 230, 230, 0.5); /* Mac titlebar */
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.mac-dot { width: 12px; height: 12px; border-radius: 50%; cursor: pointer; }
+.mac-red { background: #ff5f56; }
+.mac-yellow { background: #ffbd2e; }
+.mac-green { background: #27c93f; }
+
+.linux-terminal {
+  background: #0c0c0c; /* Linux terminal */
+  color: #00ff00;
+  font-family: 'Courier New', Courier, monospace;
+  padding: 12px;
+  border: none;
+  resize: vertical;
+  min-height: 80px;
+  font-size: 14px;
+}
+.linux-terminal:focus { outline: none; }
+.linux-terminal::placeholder { color: rgba(0, 255, 0, 0.4); }
+
+.frankenstein-submit {
+  background: #238636; /* GitHub green */
+  color: white;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  align-self: flex-end;
+  margin: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.frankenstein-submit:hover { background: #2ea043; }
+
+.rendered-reply {
+  margin-top: 12px;
+  padding: 12px;
+  border-left: 4px solid var(--cart-orange); /* Amazon-ish accent */
+  background: rgba(255, 122, 61, 0.08); 
+  border-radius: 0 8px 8px 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink);
+}
+.rendered-reply-header {
+  font-weight: bold;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.rendered-reply-header::before {
+  content: '↳';
+  color: var(--cart-orange);
+  font-weight: bold;
+}
+.replies-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }

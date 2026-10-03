@@ -96,5 +96,5 @@ server.listen(PORT, () => {
       '   or export it directly: export OPENROUTER_API_KEY=sk-or-...'
     );
   }
-  console.log(`🛒 RepoCart running at http://localhost:${PORT}`);
+  console.log(`🛒 RepoRate running at http://localhost:${PORT}`);
 });

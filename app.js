@@ -10,6 +10,7 @@ const loadingText = document.getElementById('loading-text');
 const errorState = document.getElementById('error-state');
 const errorMessage = document.getElementById('error-message');
 const results = document.getElementById('results');
+const replyToAllBtn = document.getElementById('reply-to-all-btn');
 
 const LOADING_MESSAGES = [
   "Reading the README…",
@@ -117,6 +118,49 @@ function renderLanguageBar(languageBreakdown) {
   });
 }
 
+function addReplyToContainer(container, text) {
+  if (!text.trim()) return;
+  const replyEl = document.createElement('div');
+  replyEl.className = 'rendered-reply';
+  replyEl.innerHTML = `
+    <div class="rendered-reply-header">Author Reply</div>
+    <div class="rendered-reply-body">${escapeHtml(text)}</div>
+  `;
+  container.appendChild(replyEl);
+}
+
+function createFrankensteinBox(onSubmit, onClose) {
+  const box = document.createElement('div');
+  box.className = 'os-frankenstein-box';
+  
+  const header = document.createElement('div');
+  header.className = 'mac-titlebar';
+  
+  const closeBtn = document.createElement('div');
+  closeBtn.className = 'mac-dot mac-red';
+  if (onClose) closeBtn.addEventListener('click', onClose);
+  
+  const minBtn = document.createElement('div');
+  minBtn.className = 'mac-dot mac-yellow';
+  
+  const maxBtn = document.createElement('div');
+  maxBtn.className = 'mac-dot mac-green';
+
+  header.append(closeBtn, minBtn, maxBtn);
+
+  const textarea = document.createElement('textarea');
+  textarea.className = 'linux-terminal';
+  textarea.placeholder = 'root@linux:~# echo "type your reply here"';
+
+  const submit = document.createElement('button');
+  submit.className = 'frankenstein-submit';
+  submit.textContent = 'Commit Reply';
+  submit.addEventListener('click', () => onSubmit(textarea.value));
+
+  box.append(header, textarea, submit);
+  return box;
+}
+
 function renderReviews(reviews) {
   const list = document.getElementById('review-list');
   list.innerHTML = '';
@@ -153,7 +197,29 @@ function renderReviews(reviews) {
     footer.className = 'review-footer';
     footer.textContent = `${r.helpfulVotes} people found this helpful`;
 
-    content.append(meta, stars, title, body, footer);
+    const replyBtn = document.createElement('button');
+    replyBtn.className = 'reply-btn';
+    replyBtn.textContent = 'Reply';
+
+    const repliesContainer = document.createElement('div');
+    repliesContainer.className = 'replies-container';
+
+    let replyFormOpen = false;
+    replyBtn.addEventListener('click', () => {
+      if (replyFormOpen) return;
+      replyFormOpen = true;
+      const box = createFrankensteinBox((text) => {
+        addReplyToContainer(repliesContainer, text);
+        box.remove();
+        replyFormOpen = false;
+      }, () => {
+        box.remove();
+        replyFormOpen = false;
+      });
+      content.appendChild(box);
+    });
+
+    content.append(meta, stars, title, body, footer, replyBtn, repliesContainer);
     li.append(avatar, content);
     list.appendChild(li);
   });
@@ -223,4 +289,24 @@ form.addEventListener('submit', (e) => {
 tryExampleBtn.addEventListener('click', () => {
   input.value = 'sidx1-scratch/prefrontal';
   submitRepo(input.value);
+});
+
+let replyToAllOpen = false;
+replyToAllBtn.addEventListener('click', () => {
+  if (replyToAllOpen) return;
+  replyToAllOpen = true;
+
+  const box = createFrankensteinBox((text) => {
+    // Add reply to ALL reviews
+    const containers = document.querySelectorAll('.replies-container');
+    containers.forEach(container => addReplyToContainer(container, text));
+    box.remove();
+    replyToAllOpen = false;
+  }, () => {
+    box.remove();
+    replyToAllOpen = false;
+  });
+
+  const list = document.getElementById('review-list');
+  list.parentNode.insertBefore(box, list);
 });
