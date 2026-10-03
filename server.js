@@ -8,6 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { handleReviewRequest } from './lib/handleReview.js';
+import { handleReplyRequest } from './lib/handleReply.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -71,6 +72,20 @@ const server = http.createServer(async (req, res) => {
       const raw = await readBody(req);
       const body = raw ? JSON.parse(raw) : {};
       const { status, payload } = await handleReviewRequest(body);
+      res.writeHead(status, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(payload));
+    } catch (err) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Invalid request: ' + err.message }));
+    }
+    return;
+  }
+
+  if (req.method === 'POST' && req.url === '/api/reply') {
+    try {
+      const raw = await readBody(req);
+      const body = raw ? JSON.parse(raw) : {};
+      const { status, payload } = await handleReplyRequest(body);
       res.writeHead(status, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(payload));
     } catch (err) {

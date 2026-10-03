@@ -118,15 +118,40 @@ function renderLanguageBar(languageBreakdown) {
   });
 }
 
-function addReplyToContainer(container, text) {
+function addReplyToContainer(container, text, headerText = 'Author Reply') {
   if (!text.trim()) return;
   const replyEl = document.createElement('div');
   replyEl.className = 'rendered-reply';
   replyEl.innerHTML = `
-    <div class="rendered-reply-header">Author Reply</div>
+    <div class="rendered-reply-header">${escapeHtml(headerText)}</div>
     <div class="rendered-reply-body">${escapeHtml(text)}</div>
   `;
   container.appendChild(replyEl);
+}
+
+async function handleAIAgentReply(container, review, userReplyText) {
+  const loadingEl = document.createElement('div');
+  loadingEl.className = 'rendered-reply';
+  loadingEl.innerHTML = `<div class="rendered-reply-header">${escapeHtml(review.name)} is typing...</div>`;
+  container.appendChild(loadingEl);
+
+  try {
+    const res = await fetch('/api/reply', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ review, userReply: userReplyText }),
+    });
+    const data = await res.json();
+    loadingEl.remove();
+    if (res.ok && data.reply) {
+      addReplyToContainer(container, data.reply, `${review.name}'s Response`);
+    } else {
+      addReplyToContainer(container, 'Failed to get response.', 'System Error');
+    }
+  } catch (e) {
+    loadingEl.remove();
+    addReplyToContainer(container, 'Error communicating with reviewer.', 'System Error');
+  }
 }
 
 function createFrankensteinBox(onSubmit, onClose) {
@@ -203,15 +228,17 @@ function renderReviews(reviews) {
 
     const repliesContainer = document.createElement('div');
     repliesContainer.className = 'replies-container';
+    repliesContainer._reviewData = r;
 
     let replyFormOpen = false;
     replyBtn.addEventListener('click', () => {
       if (replyFormOpen) return;
       replyFormOpen = true;
-      const box = createFrankensteinBox((text) => {
-        addReplyToContainer(repliesContainer, text);
+      const box = createFrankensteinBox(async (text) => {
+        addReplyToContainer(repliesContainer, text, 'Author Reply');
         box.remove();
         replyFormOpen = false;
+        await handleAIAgentReply(repliesContainer, r, text);
       }, () => {
         box.remove();
         replyFormOpen = false;
@@ -296,12 +323,17 @@ replyToAllBtn.addEventListener('click', () => {
   if (replyToAllOpen) return;
   replyToAllOpen = true;
 
-  const box = createFrankensteinBox((text) => {
+  const box = createFrankensteinBox(async (text) => {
     // Add reply to ALL reviews
-    const containers = document.querySelectorAll('.replies-container');
-    containers.forEach(container => addReplyToContainer(container, text));
+    const containers = Array.from(document.querySelectorAll('.replies-container'));
+    containers.forEach(container => addReplyToContainer(container, text, 'Author Reply'));
     box.remove();
     replyToAllOpen = false;
+
+    // Trigger AI replies for each container
+    await Promise.all(containers.map(container => 
+      handleAIAgentReply(container, container._reviewData, text)
+    ));
   }, () => {
     box.remove();
     replyToAllOpen = false;
